@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import Header from './components/Header/Header.jsx';
-import CoreConcept from './components/CoreConcepts/CoreConcepts.jsx';
 import TabButton from './components/TabButton/TabButton.jsx';
 
 import { CORE_CONCEPTS, EXAMPLES } from './data';
+import CoreConcept from './components/CoreConcept/CoreConcept.jsx';
 
 const componentsText = 'components';
 const jsxText = 'jsx';
