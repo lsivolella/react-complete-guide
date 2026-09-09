@@ -4,12 +4,12 @@ import Header from './components/Header/Header.jsx';
 import TabButton from './components/TabButton/TabButton.jsx';
 
 import { CORE_CONCEPTS, EXAMPLES } from './data';
-import CoreConcept from './components/CoreConcept/CoreConcept.jsx';
 
 const componentsText = 'components';
 const jsxText = 'jsx';
 const propsText = 'props';
 const stateText = 'state';
+import CoreConcepts from './components/CoreConcepts/CoreConcepts.jsx';
 
 function App() {
   const [selectedTopic, setSelectedTopic] = useState();
@@ -37,15 +37,6 @@ function App() {
     <div>
       <Header></Header>
       <main>
-        <section id="core-concepts">
-          <h2>Core Concepts</h2>
-          <ul>
-            {CORE_CONCEPTS.map((conceptItem) => (
-              <CoreConcept key={conceptItem.title} {...conceptItem} />
-            ))}
-          </ul>
-        </section>
-        <section id="examples">
           <h2>Examples</h2>
           <menu>
             <TabButton
@@ -66,6 +57,7 @@ function App() {
           </menu>
           {tabContent}
         </section>
+        <CoreConcepts />
       </main>
     </div>
   );
