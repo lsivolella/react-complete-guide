@@ -1,6 +1,9 @@
 import './Examples.css'
 
 import { useState } from 'react';
+
+import Section from '../Section.jsx';
+import Tabs from '../Tabs.jsx';
 import TabButton from '../../components/TabButton/TabButton.jsx';
 
 import { EXAMPLES } from '../../data';
@@ -33,26 +36,29 @@ export default function Examples() {
     }
 
     return (
-        <section id="examples">
-            <h2>Examples</h2>
-            <menu>
-                <TabButton
-                    onClick={() => handleClick(componentsText)}
-                    isSelected={selectedTopic === componentsText}
-                >Components</TabButton>
-                <TabButton
-                    onClick={() => handleClick(jsxText)}
-                    isSelected={selectedTopic === jsxText}
-                >JSX</TabButton>
-                <TabButton
-                    onClick={() => handleClick(propsText)}
-                    isSelected={selectedTopic === propsText}
-                >Props</TabButton>
-                <TabButton onClick={() => handleClick(stateText)}
-                    isSelected={selectedTopic === stateText}
-                >State</TabButton>
-            </menu>
-            {tabContent}
-        </section>
+        <Section id="examples" title="Examples">
+            <Tabs
+                buttons={
+                    <>
+                        <TabButton
+                            onClick={() => handleClick(componentsText)}
+                            isSelected={selectedTopic === componentsText}
+                        >Components</TabButton>
+                        <TabButton
+                            onClick={() => handleClick(jsxText)}
+                            isSelected={selectedTopic === jsxText}
+                        >JSX</TabButton>
+                        <TabButton
+                            onClick={() => handleClick(propsText)}
+                            isSelected={selectedTopic === propsText}
+                        >Props</TabButton>
+                        <TabButton onClick={() => handleClick(stateText)}
+                            isSelected={selectedTopic === stateText}
+                        >State</TabButton>
+                    </>
+                }>
+                {tabContent}
+            </Tabs>
+        </Section>
     );
 }
