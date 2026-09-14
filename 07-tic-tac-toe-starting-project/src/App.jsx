@@ -3,21 +3,61 @@ import { act, useState } from 'react';
 import Player from "./components/Player.jsx"
 import GameBoard from "./components/GameBoard.jsx";
 import Log from './components/Log.jsx';
+import GameOver from './components/GameOver.jsx';
+
+import { WINNING_COMBINATIONS } from './WinningCombinations.js';
+
+const initialGameBoard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null]
+];
 
 const playerX = "X";
 const playerO = "O";
 
+function deriveActivePlayer(gameTurns) {
+  let currentPlayer = playerX;
+
+  if (gameTurns.length > 0 && gameTurns[0].player === playerX)
+    currentPlayer = playerO;
+
+  return currentPlayer;
+}
+
 function App() {
-  const [activePlayer, setActivePlayer] = useState(playerX);
   const [gameTurns, setGameTurns] = useState([]);
 
-  function handleSelectSquare(rowIndex, colIndex) {
-    setActivePlayer((currentActivePlayer) => currentActivePlayer === playerX ? playerO : playerX);
-    setGameTurns(prevTurns => {
-      let currentPlayer = playerX;
+  const activePlayer = deriveActivePlayer(gameTurns);
 
-      if (prevTurns.length > 0 && prevTurns[0].player === playerX)
-        currentPlayer = playerO;
+  let gameBoard = initialGameBoard;
+
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+
+    gameBoard[row][col] = player;
+  }
+
+  let winner = null;
+
+  for (const combination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column]
+    const secondSquareSymbol = gameBoard[combination[1].row][combination[1].column]
+    const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].column]
+
+    if (firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol) {
+      winner = firstSquareSymbol;
+    }
+  }
+
+  const hasDraw = !winner && gameTurns.length === 9
+
+  function handleSelectSquare(rowIndex, colIndex) {
+    setGameTurns(prevTurns => {
+      const currentPlayer = deriveActivePlayer(prevTurns);
 
       const updatedTurns = [
         {
@@ -49,9 +89,10 @@ function App() {
             isActive={activePlayer === playerO}
           />
         </ol>
+        {(winner || hasDraw) && <GameOver winner={winner} />}
         <GameBoard
           onSelectSquare={handleSelectSquare}
-          turns={gameTurns} />
+          board={gameBoard} />
       </div>
       <Log
         gameTurns={gameTurns} />
